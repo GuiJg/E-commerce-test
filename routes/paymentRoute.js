@@ -19,7 +19,7 @@ router.post('/criar-preferencia/:id', async (req, res) => {
             items: [
                 {
                     title: product.name,
-                    quantity: 1,
+                    quantity: 1, 
                     currency_id: 'BRL',
                     unit_price: product.price,
                 },
