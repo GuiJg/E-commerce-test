@@ -37,7 +37,7 @@ router.post('/criar-preferencia/:id', async (req, res) => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer TEST-8354292579455022-052214-e62efed96ecff7148a48452cf1bc68f7-627608118`, // Certifique-se de que o token está correto
+                    'Authorization': `Bearer TEST-8354292579455022-052214-45b7b6532704c122d9a6f33f81c23a3b-627608118`, // Certifique-se de que o token está correto
                 },
             }
         );
