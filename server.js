@@ -1,8 +1,10 @@
+//server.js
 require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const productRoute = require('./routes/productRoute');
-const paymentRoute = require('./routes/paymentRoute'); // Adicione a nova rota
+const paymentRoute = require('./routes/paymentRoute'); 
+const authRoute = require('./routes/authRoute');
 const errorMiddleware = require('./middleware/errorMiddleware');
 const cors = require('cors');
 
@@ -17,7 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 
 // Rotas
 app.use('/api/products', productRoute);
-app.use('/api/payment', paymentRoute); // Use a nova rota
+app.use('/api/payment', paymentRoute);
+app.use('/api/auth', authRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello NODE API');
