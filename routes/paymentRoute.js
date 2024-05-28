@@ -1,14 +1,14 @@
 const express = require('express');
 const axios = require('axios');
-const Product = require('../models/productModel'); 
-const authMiddleware = require('../middleware/authMiddleware');
+const Product = require('../models/productModel');
+const Payment = require('../models/Payment');
 
 const router = express.Router();
 
-router.post('/criar-preferencia/:id', authMiddleware, async (req, res) => {
+router.post('/criar-preferencia/:id', async (req, res) => {
     try {
         const productId = req.params.id;
-        console.log(`Buscando produto com ID: ${productId}`); 
+        console.log(`Buscando produto com ID: ${productId}`);
         const product = await Product.findById(productId);
 
         if (!product) {
@@ -19,25 +19,24 @@ router.post('/criar-preferencia/:id', authMiddleware, async (req, res) => {
             items: [
                 {
                     title: product.name,
-                    quantity: 1, 
+                    quantity: 1,
                     currency_id: 'BRL',
                     unit_price: product.price,
                 },
             ],
             back_urls: {
-                success: 'https://e-commerce-test-react-vite.vercel.app/',
+                success: 'http://localhost:3000/',
             },
         };
 
-        console.log('Criando preferência de pagamento com os seguintes dados:', preference); 
+        console.log('Criando preferência de pagamento com os seguintes dados:', preference);
 
         const response = await axios.post(
-            'https://api.mercadopago.com/checkout/preferences',
-            preference,
+            'https://api.mercadopago.com/checkout/preferences', preference,
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer TEST-8354292579455022-052214-45b7b6532704c122d9a6f33f81c23a3b-627608118`, 
+                    'Authorization': `Bearer TEST-8354292579455022-052214-45b7b6532704c122d9a6f33f81c23a3b-627608118`,
                 },
             }
         );
@@ -47,7 +46,7 @@ router.post('/criar-preferencia/:id', authMiddleware, async (req, res) => {
 
         const payment = new Payment({
             amount: product.price,
-            user: req.user.id, 
+            user: req.user.id,
         });
         await payment.save();
 
