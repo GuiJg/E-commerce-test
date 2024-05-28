@@ -15,7 +15,7 @@ router.post('/criar-preferencia/:id', async (req, res) => {
             return res.status(404).send({ error: 'Produto não encontrado' });
         }
 
-        const preference = {
+        const preference = {    
             items: [
                 {
                     title: product.name,
