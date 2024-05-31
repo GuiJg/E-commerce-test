@@ -10,10 +10,15 @@ router.post('/criar-preferencia/:id', async (req, res) => {
         const productId = req.params.id;
         console.log(`Buscando produto com ID: ${productId}`);
         const product = await Product.findById(productId);
+        const user = req.params.user
 
         if (!product) {
             return res.status(404).send({ error: 'Produto não encontrado' });
         }
+
+        // if (!user) {
+        //     return res.status(404).send({ error: 'Usuário não encontrado' });
+        // }
 
         const preference = {
             items: [
@@ -25,7 +30,7 @@ router.post('/criar-preferencia/:id', async (req, res) => {
                 },
             ],
             back_urls: {
-                success: 'http://localhost:3000/',
+                success: 'http://localhost:5173/',
             },
         };
 
@@ -43,17 +48,17 @@ router.post('/criar-preferencia/:id', async (req, res) => {
         );
 
         console.log('Resposta do Mercado Pago:', response.data);
-        // Crie o objeto de pagamento antes de enviar a resposta
-        const payment = new Payment({
-            amount: product.price,
-            user: req.user._id,
-        });
+        // // Crie o objeto de pagamento antes de enviar a resposta
+        // const payment = new Payment({
+        //     amount: product.price,
+        //     user: req.user._id,
+        // });
 
-        // Aguarde o salvamento do pagamento
-        await payment.save();
+        // // Aguarde o salvamento do pagamento
+        // await payment.save();
         
         // Envie a resposta ao cliente depois que todas as operações assíncronas foram concluídas
-        res.json({ init_point: response.data.init_point });
+        res.json({ sandbox_init_point: response.data.sandbox_init_point });
 
     } catch (error) {
         console.error('Erro ao criar a preferência de pagamento:', error);
