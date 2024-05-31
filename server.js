@@ -1,12 +1,13 @@
-//server.js
 require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
+const cors = require('cors');
+
 const productRoute = require('./routes/productRoute');
-const paymentRoute = require('./routes/paymentRoute'); 
+const paymentRoute = require('./routes/paymentRoute');
 const authRoute = require('./routes/authRoute');
 const errorMiddleware = require('./middleware/errorMiddleware');
-const cors = require('cors');
+const authMiddleware = require('./middleware/authMiddleware'); // Certifique-se de que esse caminho está correto
 
 const app = express();
 

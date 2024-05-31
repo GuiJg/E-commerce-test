@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
         user = new User({ name, email, password });
         console.log('Usuário criado:', user);
 
-        const salt = await bcrypt.genSalt(10); 
+        const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
 
         await user.save();

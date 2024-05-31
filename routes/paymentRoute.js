@@ -15,7 +15,7 @@ router.post('/criar-preferencia/:id', async (req, res) => {
             return res.status(404).send({ error: 'Produto não encontrado' });
         }
 
-        const preference = {    
+        const preference = {
             items: [
                 {
                     title: product.name,
@@ -32,7 +32,8 @@ router.post('/criar-preferencia/:id', async (req, res) => {
         console.log('Criando preferência de pagamento com os seguintes dados:', preference);
 
         const response = await axios.post(
-            'https://api.mercadopago.com/checkout/preferences', preference,
+            'https://api.mercadopago.com/checkout/preferences',
+            preference,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,17 +43,24 @@ router.post('/criar-preferencia/:id', async (req, res) => {
         );
 
         console.log('Resposta do Mercado Pago:', response.data);
-        res.json({ init_point: response.data.init_point });
-
+        // Crie o objeto de pagamento antes de enviar a resposta
         const payment = new Payment({
             amount: product.price,
-            user: req.user.id,
+            user: req.user._id,
         });
+
+        // Aguarde o salvamento do pagamento
         await payment.save();
+        
+        // Envie a resposta ao cliente depois que todas as operações assíncronas foram concluídas
+        res.json({ init_point: response.data.init_point });
 
     } catch (error) {
         console.error('Erro ao criar a preferência de pagamento:', error);
-        res.status(500).send({ error: 'Erro ao criar a preferência de pagamento' });
+        // Certifique-se de que uma resposta de erro seja enviada apenas se nenhuma resposta foi enviada ainda
+        if (!res.headersSent) {
+            res.status(500).send({ error: 'Erro ao criar a preferência de pagamento' });
+        }
     }
 });
 
