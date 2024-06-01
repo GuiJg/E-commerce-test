@@ -1,6 +1,6 @@
 const express = require('express');
 const Product = require('../models/productModel')
-const {getProducts, getProduct, creatProduct, updateProduct, deleteProduct} = require('../controllers/productController')
+const {getProducts, getProduct, createProduct, updateProduct, deleteProduct} = require('../controllers/productController')
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get('/', getProducts)
 router.get('/:id', getProduct)
 
 // Inserir produtos
-router.post('/', creatProduct)
+router.post('/', createProduct)
 
 // atualizar os produtos
 router.put('/:id', updateProduct)

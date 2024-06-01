@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const User = require('../models/userModel');
 
 router.post('/register', async (req, res) => {
     console.log('Rota de registro acessada');
@@ -67,7 +67,7 @@ router.post('/login', async (req, res) => {
             }
         };
 
-        jwt.sign(payload, 'b5f23c9a2fc6e94f1a597ad83c29fe3e3f580ef4', { expiresIn: '1h' }, (err, token) => {
+        jwt.sign(payload, `${process.env.JWT_SECRET}`, { expiresIn: '1h' }, (err, token) => {
             if (err) {
                 console.error('Erro ao gerar token JWT:', err);
                 return res.status(500).json({ error: 'Erro ao gerar token JWT' });

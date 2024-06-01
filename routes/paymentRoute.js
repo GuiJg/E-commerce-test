@@ -1,7 +1,6 @@
 const express = require('express');
 const axios = require('axios');
 const Product = require('../models/productModel');
-const Payment = require('../models/Payment');
 
 const router = express.Router();
 
@@ -30,7 +29,7 @@ router.post('/criar-preferencia/:id', async (req, res) => {
                 },
             ],
             back_urls: {
-                success: 'http://localhost:5173/',
+                success: 'https://e-commerce-test-react-vite.vercel.app/',
             },
         };
 
@@ -42,7 +41,7 @@ router.post('/criar-preferencia/:id', async (req, res) => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer TEST-8354292579455022-052214-45b7b6532704c122d9a6f33f81c23a3b-627608118`,
+                    'Authorization': `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
                 },
             }
         );

@@ -25,7 +25,7 @@ const getProduct = asyncHandler(async (req, res) => {
 })
 
 //criar/inserir produto novo
-const creatProduct = asyncHandler(async (req, res) => {
+const createProduct = asyncHandler(async (req, res) => {
     try {
 
         const product = await Product.create(req.body)
@@ -72,7 +72,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 module.exports = {
     getProducts,
     getProduct,
-    creatProduct,
+    createProduct,
     updateProduct,
     deleteProduct
 }

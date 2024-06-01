@@ -16,20 +16,12 @@ const MONGO_URL = process.env.MONGO_URL;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));   
 
 // Rotas
 app.use('/api/products', productRoute);
 app.use('/api/payment', paymentRoute);
 app.use('/api/auth', authRoute);
-
-app.get('/', (req, res) => {
-  res.send('Hello NODE API');
-});
-
-app.get('/blog', (req, res) => {
-  res.send("Hello Blog");
-});
 
 app.use(errorMiddleware);
 
