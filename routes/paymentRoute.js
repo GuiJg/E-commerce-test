@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const Product = require('../models/productModel');
+require('dotenv').config();
 
 const router = express.Router();
 
@@ -9,7 +10,7 @@ router.post('/criar-preferencia/:id', async (req, res) => {
         const productId = req.params.id;
         console.log(`Buscando produto com ID: ${productId}`);
         const product = await Product.findById(productId);
-        const user = req.params.user
+        const user = req.params.user;
 
         if (!product) {
             return res.status(404).send({ error: 'Produto não encontrado' });
@@ -18,6 +19,10 @@ router.post('/criar-preferencia/:id', async (req, res) => {
         // if (!user) {
         //     return res.status(404).send({ error: 'Usuário não encontrado' });
         // }
+
+        if (!product.price || !product.name) {
+            return res.status(400).send({ error: 'Dados do produto inválidos' });
+        }
 
         const preference = {
             items: [
@@ -47,21 +52,10 @@ router.post('/criar-preferencia/:id', async (req, res) => {
         );
 
         console.log('Resposta do Mercado Pago:', response.data);
-        // // Crie o objeto de pagamento antes de enviar a resposta
-        // const payment = new Payment({
-        //     amount: product.price,
-        //     user: req.user._id,
-        // });
-
-        // // Aguarde o salvamento do pagamento
-        // await payment.save();
-        
-        // Envie a resposta ao cliente depois que todas as operações assíncronas foram concluídas
-        res.json({ sandbox_init_point: response.data.sandbox_init_point });
+        res.json({ sandbox_init_point: response.data.sandbox_init_point, preference_id: response.data.id });
 
     } catch (error) {
         console.error('Erro ao criar a preferência de pagamento:', error);
-        // Certifique-se de que uma resposta de erro seja enviada apenas se nenhuma resposta foi enviada ainda
         if (!res.headersSent) {
             res.status(500).send({ error: 'Erro ao criar a preferência de pagamento' });
         }

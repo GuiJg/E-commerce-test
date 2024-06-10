@@ -7,7 +7,7 @@ const productRoute = require('./routes/productRoute');
 const paymentRoute = require('./routes/paymentRoute');
 const authRoute = require('./routes/authRoute');
 const errorMiddleware = require('./middleware/errorMiddleware');
-const authMiddleware = require('./middleware/authMiddleware'); // Certifique-se de que esse caminho está correto
+const authMiddleware = require('./middleware/authMiddleware'); 
 
 const app = express();
 
@@ -16,7 +16,7 @@ const MONGO_URL = process.env.MONGO_URL;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));   
+app.use(express.urlencoded({ extended: false }));
 
 // Rotas
 app.use('/api/products', productRoute);
