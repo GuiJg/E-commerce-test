@@ -2,6 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
+const cloudinary = require('cloudinary').v2;
 
 const productRoute = require('./routes/productRoute');
 const paymentRoute = require('./routes/paymentRoute');
@@ -17,6 +18,13 @@ const MONGO_URL = process.env.MONGO_URL;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Configuração do Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // Rotas
 app.use('/api/products', productRoute);
@@ -36,3 +44,4 @@ mongoose.connect(MONGO_URL)
   .catch((error) => {
     console.log(error);
   });
+
